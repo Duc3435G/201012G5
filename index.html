@@ -3,361 +3,602 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hộp Quà Bất Ngờ</title>
+    <title>Mừng Ngày 20/10 - Chào Mừng Các Bạn Nữ & Cô Giáo</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            user-select: none;
         }
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #0f172a, #1e1b4b, #311042);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        body, html {
+            width: 100%;
+            height: 100%;
             overflow: hidden;
+            background-color: #03030c;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
         }
 
-        /* Container chính */
-        .container {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            z-index: 10;
-        }
-
-        /* Tiêu đề hướng dẫn */
-        .hint-text {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #f1f5f9;
-            margin-bottom: 2rem;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-            animation: bounceText 2s infinite ease-in-out;
-            transition: opacity 0.5s ease;
-        }
-
-        @keyframes bounceText {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Hộp quà */
-        .gift-box {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            cursor: pointer;
-            transform-style: preserve-3d;
-            transition: transform 0.3s ease;
-        }
-
-        .gift-box:hover {
-            transform: scale(1.05);
-        }
-
-        /* Thân hộp quà */
-        .gift-body {
-            position: absolute;
-            bottom: 0;
-            width: 180px;
-            height: 140px;
-            background: linear-gradient(135deg, #e11d48, #be123c);
-            border-radius: 0 0 12px 12px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5),
-                        inset 0 -10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Nắp hộp quà */
-        .gift-lid {
-            position: absolute;
-            top: 20px;
-            left: -10px;
-            width: 200px;
-            height: 40px;
-            background: linear-gradient(135deg, #f43f5e, #e11d48);
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 2;
-        }
-
-        /* Nơ & Dây ruy băng */
-        .ribbon-vertical {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 36px;
-            height: 100%;
-            background: linear-gradient(90deg, #fef08a, #facc15, #eab308);
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .ribbon-horizontal {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 100%;
-            height: 30px;
-            background: linear-gradient(180deg, #fef08a, #facc15, #eab308);
-        }
-
-        .bow {
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 35px;
-            z-index: 3;
-        }
-
-        .bow-left, .bow-right {
-            position: absolute;
-            width: 35px;
-            height: 30px;
-            border: 5px solid #facc15;
-            border-radius: 50% 50% 0 50%;
-            background: #eab308;
-        }
-
-        .bow-left {
-            left: -5px;
-            transform: rotate(-20deg);
-        }
-
-        .bow-right {
-            right: -5px;
-            transform: scaleX(-1) rotate(-20deg);
-        }
-
-        /* Hiệu ứng MỞ QUÀ */
-        .gift-box.open .gift-lid {
-            transform: translateY(-160px) rotate(-20deg) scale(0.9);
-        }
-
-        .gift-box.open {
-            animation: popBox 0.4s ease forwards;
-        }
-
-        @keyframes popBox {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.95); }
-            100% { transform: scale(1); }
-        }
-
-        /* Khung chứa nội dung thông điệp */
-        .message-card {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2.5rem 3rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
-                        0 0 30px rgba(250, 204, 21, 0.4);
-            color: #1e293b;
-            text-align: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            z-index: 20;
-            min-width: 320px;
-        }
-
-        .message-card.show {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .message-card h2 {
-            color: #e11d48;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .message-card p {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #334155;
-            line-height: 1.6;
-        }
-
-        .close-btn {
-            margin-top: 1.5rem;
-            padding: 0.6rem 1.5rem;
-            background: linear-gradient(135deg, #e11d48, #be123c);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
-            transition: all 0.2s ease;
-        }
-
-        .close-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(225, 29, 72, 0.4);
-        }
-
-        /* Hiệu ứng Pháo hoa / Hạt lấp lánh Canvas */
-        canvas {
+        /* Fullscreen Canvas */
+        #warpCanvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            z-index: 1;
+        }
+
+        /* Audio Control Button (Subtle Top-Right) */
+        .audio-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .audio-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        /* 1. START OVERLAY */
+        #startOverlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            background: radial-gradient(circle at center, #100826 0%, #03030c 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 1s ease, visibility 1s;
+        }
+
+        #startOverlay.hidden {
+            opacity: 0;
+            visibility: hidden;
             pointer-events: none;
-            z-index: 5;
+        }
+
+        .start-btn {
+            padding: 24px 64px;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #fff;
+            background: linear-gradient(135deg, #ff2a75, #ff758c, #7b2cbf);
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease infinite;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 0 50px rgba(255, 42, 117, 0.6),
+                        inset 0 0 15px rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .start-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 80px rgba(255, 42, 117, 0.9),
+                        inset 0 0 25px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 2. FLYING PHOTO CONTAINERS (Left/Right Flying Photos) */
+        .flying-photo {
+            position: absolute;
+            z-index: 10;
+            background: #ffffff;
+            padding: 12px 12px 24px 12px;
+            border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(255,105,180,0.4);
+            pointer-events: none;
+            will-change: transform, opacity;
+            width: 280px;
+        }
+
+        .flying-photo img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 4px;
+            display: block;
+        }
+
+        /* 3. FINALE OVERLAY (LỜI CHÚC TRUNG TÂM & ẢNH BAO QUANH) */
+        #finaleOverlay {
+            position: fixed;
+            inset: 0;
+            z-index: 30;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 2s ease, visibility 2s;
+            pointer-events: none;
+        }
+
+        #finaleOverlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* Wishes Card Container */
+        .wishes-card {
+            position: relative;
+            z-index: 40;
+            width: 90%;
+            max-width: 750px;
+            background: rgba(18, 10, 35, 0.75);
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            backdrop-filter: blur(25px);
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(255, 105, 180, 0.4),
+                        0 0 100px rgba(255, 215, 0, 0.2),
+                        inset 0 0 30px rgba(255, 215, 0, 0.15);
+            animation: cardGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes cardGlow {
+            from { box-shadow: 0 0 50px rgba(255, 105, 180, 0.4), 0 0 80px rgba(255, 215, 0, 0.2); }
+            to { box-shadow: 0 0 90px rgba(255, 42, 117, 0.7), 0 0 130px rgba(255, 215, 0, 0.5); }
+        }
+
+        .wishes-card h1 {
+            font-size: 38px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff6b7, #f6416c, #ffde7d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .wishes-card p {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #f3e5f5;
+            margin-bottom: 15px;
+            font-weight: 400;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .wishes-card .highlight {
+            color: #ffde7d;
+            font-weight: 700;
+        }
+
+        .wishes-card .signature {
+            margin-top: 25px;
+            font-size: 22px;
+            font-style: italic;
+            color: #ff758c;
+            font-weight: 600;
+        }
+
+        /* Surrounding Floating Photos Container */
+        #surroundingPhotos {
+            position: absolute;
+            inset: 0;
+            z-index: 35;
+            pointer-events: none;
+        }
+
+        .surrounding-photo {
+            position: absolute;
+            width: 190px;
+            background: #ffffff;
+            padding: 8px 8px 16px 8px;
+            border-radius: 6px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.7), 0 0 15px rgba(255,105,180,0.4);
+            animation: floatAround 6s ease-in-out infinite alternate;
+        }
+
+        .surrounding-photo img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        @keyframes floatAround {
+            0% { transform: translateY(0px) rotate(var(--rot)); }
+            100% { transform: translateY(-18px) rotate(calc(var(--rot) + 4deg)); }
+        }
+
+        /* Subtle Upload / Config Button */
+        .config-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+        }
+
+        .config-btn:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Photo Upload Modal */
+        #uploadModal {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        #uploadModal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-body {
+            background: #1a1528;
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid rgba(255,105,180,0.3);
+            text-align: center;
+        }
+
+        .modal-body h3 {
+            margin-bottom: 15px;
+            color: #ff758c;
+        }
+
+        .modal-body input[type="file"] {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #7b2cbf;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: #333;
+            color: #ccc;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
 
-    <canvas id="canvas"></canvas>
+    <!-- Thẻ phát nhạc từ file nhac.mp3 (đặt cùng thư mục) -->
+    <audio id="bgmAudio" src="nhac.mp3" loop preload="auto"></audio>
 
-    <div class="container">
-        <div class="hint-text" id="hint">🎁 Bấm vào hộp quà để mở!</div>
+    <!-- 1. Canvas Warp Field Background -->
+    <canvas id="warpCanvas"></canvas>
 
-        <div class="gift-box" id="giftBox">
-            <div class="gift-lid">
-                <div class="ribbon-vertical"></div>
-                <div class="bow">
-                    <div class="bow-left"></div>
-                    <div class="bow-right"></div>
-                </div>
-            </div>
-            <div class="gift-body">
-                <div class="ribbon-vertical"></div>
+    <!-- Audio Control Button -->
+    <button class="audio-btn" id="audioToggleBtn" style="display: none;">
+        🔊 Âm nhạc: Bật
+    </button>
+
+    <!-- 2. Start Overlay Screen -->
+    <div id="startOverlay">
+        <button class="start-btn" id="startBtn">START</button>
+    </div>
+
+    <!-- 3. Finale Overlay (Lời chúc trung tâm + Ảnh bao quanh) -->
+    <div id="finaleOverlay">
+        <div id="surroundingPhotos"></div>
+
+        <div class="wishes-card">
+            <h1>Chúc Mừng Ngày 20/10</h1>
+            <p>
+                Gửi tới <span class="highlight">Cô Giáo</span> kính yêu và <span class="highlight">Toàn Thể Các Bạn Nữ</span> lời chúc mừng chân thành và tươi đẹp nhất!
+            </p>
+            <p>
+                Chúc Cô và các bạn luôn ngập tràn niềm vui, tỏa sáng rực rỡ, học tập xuất sắc và mãi là những bông hoa ngát hương, xinh đẹp nhất của tập thể chúng ta!
+            </p>
+            <div class="signature">
+                ✨ Trân trọng & Yêu thương - Nam sinh Tập thể Lớp ✨
             </div>
         </div>
     </div>
 
-    <!-- Khung thông điệp hiển thị khi mở -->
-    <div class="message-card" id="messageCard">
-        <h2>🎉 Chúc Mừng! 🎉</h2>
-        <p id="messageText">Đây là nội dung hiển thị</p>
-        <button class="close-btn" id="closeBtn">Đóng lại</button>
+    <!-- Config Button & Modal for custom pictures -->
+    <button class="config-btn" id="openConfigBtn">⚙️ Thêm ảnh lớp</button>
+
+    <div id="uploadModal">
+        <div class="modal-body">
+            <h3>Tải lên ảnh tập thể / các bạn nữ</h3>
+            <label class="file-label" for="photoInput">📁 Chọn ảnh từ máy tính</label>
+            <input type="file" id="photoInput" multiple accept="image/*">
+            <p id="uploadStatus" style="font-size: 13px; color: #aaa;"></p>
+            <br>
+            <button class="close-modal" id="closeConfigBtn">Đóng & Áp dụng</button>
+        </div>
     </div>
 
     <script>
-        const giftBox = document.getElementById('giftBox');
-        const hintText = document.getElementById('hint');
-        const messageCard = document.getElementById('messageCard');
-        const closeBtn = document.getElementById('closeBtn');
-        const canvas = document.getElementById('canvas');
+        // --- 1. DEFAULT PLACEHOLDER IMAGES ---
+        const defaultImages = [
+            "images/anh1.jpg",
+            "images/anh2.jpg",
+            "images/anh3.jpg",
+            "images/co-giao.jpg"
+        ];
+
+        let imageList = [...defaultImages];
+
+        // --- 2. CANVAS WARP FIELD ENGINE ---
+        const canvas = document.getElementById('warpCanvas');
         const ctx = canvas.getContext('2d');
 
-        let particles = [];
-        let isOpen = false;
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
 
-        // Resize Canvas
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        // Lớp hiệu ứng Hạt lấp lánh (Confetti / Fireworks)
-        class Particle {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.size = Math.random() * 8 + 4;
-                this.speedX = (Math.random() - 0.5) * 12;
-                this.speedY = (Math.random() - 0.7) * 14;
-                this.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
-                this.gravity = 0.25;
-                this.friction = 0.98;
-                this.opacity = 1;
-                this.rotation = Math.random() * 360;
-                this.rotationSpeed = (Math.random() - 0.5) * 10;
-            }
-
-            update() {
-                this.speedY += this.gravity;
-                this.speedX *= this.friction;
-                this.speedY *= this.friction;
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.opacity -= 0.015;
-                this.rotation += this.rotationSpeed;
-            }
-
-            draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate((this.rotation * Math.PI) / 180);
-                ctx.globalAlpha = Math.max(0, this.opacity);
-                ctx.fillStyle = this.color;
-                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
-                ctx.restore();
-            }
-        }
-
-        // Tạo hiệu ứng nổ pháo hoa
-        function createExplosion() {
-            const rect = giftBox.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 3;
-
-            for (let i = 0; i < 80; i++) {
-                particles.push(new Particle(centerX, centerY));
-            }
-        }
-
-        // Vòng lặp vẽ pháo hoa
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach((p, index) => {
-                p.update();
-                p.draw();
-                if (p.opacity <= 0) {
-                    particles.splice(index, 1);
-                }
-            });
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-
-        // Sự kiện Bấm vào Hộp Quà
-        giftBox.addEventListener('click', () => {
-            if (isOpen) return;
-            isOpen = true;
-
-            // Mở hộp quà
-            giftBox.classList.add('open');
-            hintText.style.opacity = '0';
-
-            // Tạo hiệu ứng pháo hoa
-            createExplosion();
-
-            // Hiển thị thông điệp sau khi nắp mở
-            setTimeout(() => {
-                messageCard.classList.add('show');
-            }, 400);
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
         });
 
-        // Nút đóng
-        closeBtn.addEventListener('click', () => {
-            messageCard.classList.remove('show');
-            setTimeout(() => {
-                giftBox.classList.remove('open');
-                hintText.style.opacity = '1';
-                isOpen = false;
-            }, 300);
+        // Stars setup
+        const numStars = 700;
+        const stars = [];
+        let warpSpeed = 18;
+
+        for (let i = 0; i < numStars; i++) {
+            stars.push({
+                x: (Math.random() - 0.5) * width * 2,
+                y: (Math.random() - 0.5) * height * 2,
+                z: Math.random() * width,
+                pz: 0
+            });
+            stars[i].pz = stars[i].z;
+        }
+
+        function drawWarpField() {
+            ctx.fillStyle = 'rgba(3, 3, 12, 0.25)';
+            ctx.fillRect(0, 0, width, height);
+
+            const cx = width / 2;
+            const cy = height / 2;
+
+            for (let i = 0; i < numStars; i++) {
+                let star = stars[i];
+                star.z -= warpSpeed;
+
+                if (star.z <= 0) {
+                    star.z = width;
+                    star.x = (Math.random() - 0.5) * width * 2;
+                    star.y = (Math.random() - 0.5) * height * 2;
+                    star.pz = star.z;
+                }
+
+                let x = (star.x / star.z) * cx + cx;
+                let y = (star.y / star.z) * cy + cy;
+
+                let px = (star.x / star.pz) * cx + cx;
+                let py = (star.y / star.pz) * cy + cy;
+
+                star.pz = star.z;
+
+                if (x >= 0 && x <= width && y >= 0 && y <= height) {
+                    let size = (1 - star.z / width) * 2.5;
+                    let alpha = (1 - star.z / width);
+
+                    ctx.beginPath();
+                    ctx.moveTo(px, py);
+                    ctx.lineTo(x, y);
+                    ctx.strokeStyle = `rgba(255, 182, 193, ${alpha})`;
+                    ctx.lineWidth = size;
+                    ctx.stroke();
+                }
+            }
+
+            requestAnimationFrame(drawWarpField);
+        }
+
+        drawWarpField();
+
+        // --- 3. FLYING PHOTOS FROM CORNERS ---
+        let photosSpawned = 0;
+        const totalPhotosToFly = 16;
+
+        function spawnCornerPhoto() {
+            if (photosSpawned >= totalPhotosToFly) {
+                setTimeout(showFinale, 2500);
+                return;
+            }
+
+            const imgUrl = imageList[photosSpawned % imageList.length];
+            const photoEl = document.createElement('div');
+            photoEl.className = 'flying-photo';
+            
+            const imgEl = document.createElement('img');
+            imgEl.src = imgUrl;
+            photoEl.appendChild(imgEl);
+            document.body.appendChild(photoEl);
+
+            const isLeft = photosSpawned % 2 === 0;
+            const startX = isLeft ? -300 : width + 100;
+            const startY = (Math.random() * (height * 0.6)) + (height * 0.1);
+
+            const endX = isLeft ? width + 200 : -350;
+            const endY = startY + (Math.random() * 200 - 100);
+
+            const startRotation = (Math.random() - 0.5) * 40;
+            const endRotation = startRotation + (Math.random() - 0.5) * 60;
+            const startScale = 0.5 + Math.random() * 0.3;
+            const endScale = 1.1 + Math.random() * 0.3;
+
+            const duration = 4000 + Math.random() * 1000;
+            const startTime = performance.now();
+
+            function animatePhoto(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeProgress = progress * (2 - progress);
+
+                const currentX = startX + (endX - startX) * easeProgress;
+                const currentY = startY + (endY - startY) * easeProgress;
+                const currentRot = startRotation + (endRotation - startRotation) * easeProgress;
+                const currentScale = startScale + (endScale - startScale) * easeProgress;
+
+                let opacity = 1;
+                if (progress < 0.15) opacity = progress / 0.15;
+                else if (progress > 0.85) opacity = (1 - progress) / 0.15;
+
+                photoEl.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) rotate(${currentRot}deg) scale(${currentScale})`;
+                photoEl.style.opacity = opacity;
+
+                if (progress < 1) {
+                    requestAnimationFrame(animatePhoto);
+                } else {
+                    photoEl.remove();
+                }
+            }
+
+            requestAnimationFrame(animatePhoto);
+
+            photosSpawned++;
+            setTimeout(spawnCornerPhoto, 1200);
+        }
+
+        // --- 4. FINALE SCREEN & SURROUNDING FLOATING PHOTOS ---
+        function showFinale() {
+            warpSpeed = 2;
+
+            const finaleOverlay = document.getElementById('finaleOverlay');
+            const surroundingContainer = document.getElementById('surroundingPhotos');
+            surroundingContainer.innerHTML = '';
+
+            const totalSurrounding = Math.min(imageList.length, 10);
+            const radiusX = Math.min(width * 0.38, 550);
+            const radiusY = Math.min(height * 0.36, 380);
+            const centerX = width / 2;
+            const centerY = height / 2;
+
+            for (let i = 0; i < totalSurrounding; i++) {
+                const angle = (i / totalSurrounding) * Math.PI * 2;
+                const posX = centerX + Math.cos(angle) * radiusX - 95;
+                const posY = centerY + Math.sin(angle) * radiusY - 80;
+                const rotation = (Math.random() - 0.5) * 24;
+
+                const photoCard = document.createElement('div');
+                photoCard.className = 'surrounding-photo';
+                photoCard.style.left = `${posX}px`;
+                photoCard.style.top = `${posY}px`;
+                photoCard.style.setProperty('--rot', `${rotation}deg`);
+                photoCard.style.animationDelay = `${Math.random() * 2}s`;
+
+                const img = document.createElement('img');
+                img.src = imageList[i % imageList.length];
+                photoCard.appendChild(img);
+
+                surroundingContainer.appendChild(photoCard);
+            }
+
+            finaleOverlay.classList.add('active');
+        }
+
+        // --- 5. CONTROLS ---
+        const startBtn = document.getElementById('startBtn');
+        const startOverlay = document.getElementById('startOverlay');
+        const bgmAudio = document.getElementById('bgmAudio');
+        const audioToggleBtn = document.getElementById('audioToggleBtn');
+
+        startBtn.addEventListener('click', () => {
+            startOverlay.classList.add('hidden');
+            audioToggleBtn.style.display = 'flex';
+            
+            // Tự động phát nhạc nền khi bấm nút START
+            bgmAudio.play().then(() => {
+                audioToggleBtn.innerHTML = '🔊 Âm nhạc: Bật';
+            }).catch(error => {
+                console.log("Không thể tự động phát nhạc:", error);
+                audioToggleBtn.innerHTML = '🔇 Âm nhạc: Tắt';
+            });
+
+            warpSpeed = 22;
+            setTimeout(spawnCornerPhoto, 500);
+        });
+
+        audioToggleBtn.addEventListener('click', () => {
+            if (bgmAudio.paused) {
+                bgmAudio.play();
+                audioToggleBtn.innerHTML = '🔊 Âm nhạc: Bật';
+            } else {
+                bgmAudio.pause();
+                audioToggleBtn.innerHTML = '🔇 Âm nhạc: Tắt';
+            }
+        });
+
+        // Config Modal
+        const openConfigBtn = document.getElementById('openConfigBtn');
+        const closeConfigBtn = document.getElementById('closeConfigBtn');
+        const uploadModal = document.getElementById('uploadModal');
+        const photoInput = document.getElementById('photoInput');
+        const uploadStatus = document.getElementById('uploadStatus');
+
+        openConfigBtn.addEventListener('click', () => uploadModal.classList.add('open'));
+        closeConfigBtn.addEventListener('click', () => uploadModal.classList.remove('open'));
+
+        photoInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            if (files.length > 0) {
+                imageList = [];
+                files.forEach(file => {
+                    const url = URL.createObjectURL(file);
+                    imageList.push(url);
+                });
+                uploadStatus.innerText = `Đã tải lên ${files.length} ảnh thành công!`;
+            }
         });
     </script>
 </body>
