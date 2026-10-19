@@ -31,7 +31,7 @@
             z-index: 1;
         }
 
-        /* Audio Control Button (Subtle Top-Right) */
+        /* Audio Control Button */
         .audio-btn {
             position: fixed;
             top: 20px;
@@ -60,7 +60,7 @@
         #startOverlay {
             position: fixed;
             inset: 0;
-            z-index: 50;
+            z-index: 60;
             background: radial-gradient(circle at center, #100826 0%, #03030c 100%);
             display: flex;
             justify-content: center;
@@ -105,7 +105,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 2. FLYING PHOTO CONTAINERS (Left/Right Flying Photos) */
+        /* 2. FLYING PHOTO CONTAINERS */
         .flying-photo {
             position: absolute;
             z-index: 10;
@@ -126,7 +126,52 @@
             display: block;
         }
 
-        /* 3. FINALE OVERLAY (LỜI CHÚC TRUNG TÂM & ẢNH BAO QUANH) */
+        /* 3. CENTERED VIDEO OVERLAY */
+        #centerVideoOverlay {
+            position: fixed;
+            inset: 0;
+            z-index: 45;
+            background: rgba(3, 3, 12, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 1s;
+        }
+
+        #centerVideoOverlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .center-video-box {
+            width: 90%;
+            max-width: 850px;
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 105, 180, 0.5);
+            box-shadow: 0 0 50px rgba(255, 105, 180, 0.4);
+            transform: scale(0.3);
+            opacity: 0;
+            transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 1s ease;
+        }
+
+        #centerVideoOverlay.show-box .center-video-box {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .center-video-box video {
+            width: 100%;
+            height: auto;
+            max-height: 75vh;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* 4. FINALE OVERLAY (LỜI CHÚC TRUNG TÂM & ẢNH BAO QUANH) */
         #finaleOverlay {
             position: fixed;
             inset: 0;
@@ -136,7 +181,7 @@
             align-items: center;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 2s ease, visibility 2s;
+            transition: opacity 1s ease, visibility 1s;
             pointer-events: none;
         }
 
@@ -146,22 +191,33 @@
             pointer-events: auto;
         }
 
-        /* Wishes Card Container */
+        /* Wishes Card Container - Đã tối ưu để hiển thị toàn bộ chữ cố định, có thanh cuộn nhỏ bên trong nếu màn hình quá nhỏ */
         .wishes-card {
             position: relative;
             z-index: 40;
             width: 90%;
             max-width: 750px;
-            background: rgba(18, 10, 35, 0.75);
+            max-height: 82vh;
+            overflow-y: auto; 
+            background: rgba(18, 10, 35, 0.9);
             border: 2px solid rgba(255, 215, 0, 0.6);
             backdrop-filter: blur(25px);
             border-radius: 24px;
-            padding: 40px;
-            text-align: center;
+            padding: 30px 35px;
+            text-align: left;
             box-shadow: 0 0 60px rgba(255, 105, 180, 0.4),
                         0 0 100px rgba(255, 215, 0, 0.2),
                         inset 0 0 30px rgba(255, 215, 0, 0.15);
             animation: cardGlow 4s ease-in-out infinite alternate;
+        }
+
+        /* Tùy chỉnh thanh cuộn bên trong thiệp cho gọn gàng */
+        .wishes-card::-webkit-scrollbar {
+            width: 6px;
+        }
+        .wishes-card::-webkit-scrollbar-thumb {
+            background: rgba(255, 105, 180, 0.4);
+            border-radius: 3px;
         }
 
         @keyframes cardGlow {
@@ -170,8 +226,9 @@
         }
 
         .wishes-card h1 {
-            font-size: 38px;
-            margin-bottom: 20px;
+            font-size: 26px;
+            margin-bottom: 15px;
+            text-align: center;
             background: linear-gradient(135deg, #fff6b7, #f6416c, #ffde7d);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -180,13 +237,15 @@
             letter-spacing: 2px;
         }
 
+        /* Thu nhỏ cỡ chữ để hiển thị gọn gàng, rõ ràng */
         .wishes-card p {
-            font-size: 20px;
-            line-height: 1.8;
+            font-size: 13.5px;
+            line-height: 1.6;
             color: #f3e5f5;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             font-weight: 400;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            text-indent: 12px;
         }
 
         .wishes-card .highlight {
@@ -195,8 +254,9 @@
         }
 
         .wishes-card .signature {
-            margin-top: 25px;
-            font-size: 22px;
+            margin-top: 20px;
+            font-size: 16px;
+            text-align: center;
             font-style: italic;
             color: #ff758c;
             font-weight: 600;
@@ -212,17 +272,17 @@
 
         .surrounding-photo {
             position: absolute;
-            width: 190px;
+            width: 240px;
             background: #ffffff;
-            padding: 8px 8px 16px 8px;
-            border-radius: 6px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.7), 0 0 15px rgba(255,105,180,0.4);
+            padding: 10px 10px 20px 10px;
+            border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 20px rgba(255,105,180,0.5);
             animation: floatAround 6s ease-in-out infinite alternate;
         }
 
         .surrounding-photo img {
             width: 100%;
-            height: 140px;
+            height: 180px;
             object-fit: cover;
             border-radius: 4px;
         }
@@ -232,7 +292,7 @@
             100% { transform: translateY(-18px) rotate(calc(var(--rot) + 4deg)); }
         }
 
-        /* Subtle Upload / Config Button */
+        /* Config Button */
         .config-btn {
             position: fixed;
             bottom: 20px;
@@ -316,23 +376,31 @@
 </head>
 <body>
 
-    <!-- Thẻ phát nhạc từ file nhac.mp3 (đặt cùng thư mục) -->
-    <audio id="bgmAudio" src="nhac.mp3" loop preload="auto"></audio>
+    <!-- Các thẻ âm thanh và video -->
+    <audio id="bgmAudio1" src="nhac1.mp3" preload="auto"></audio>
+    <audio id="bgmAudio3" src="nhac3.mp3" loop preload="auto"></audio>
 
-    <!-- 1. Canvas Warp Field Background -->
+    <!-- Canvas Warp Field Background -->
     <canvas id="warpCanvas"></canvas>
 
-    <!-- Audio Control Button -->
+    <!-- Nút điều khiển âm thanh góc trên -->
     <button class="audio-btn" id="audioToggleBtn" style="display: none;">
         🔊 Âm nhạc: Bật
     </button>
 
-    <!-- 2. Start Overlay Screen -->
+    <!-- Start Overlay Screen -->
     <div id="startOverlay">
         <button class="start-btn" id="startBtn">Bắt đầu</button>
     </div>
 
-    <!-- 3. Finale Overlay (Lời chúc trung tâm + Ảnh bao quanh) -->
+    <!-- Center Video Overlay (Khung video lớn ở giữa) -->
+    <div id="centerVideoOverlay">
+        <div class="center-video-box" id="centerVideoBox">
+            <video id="introVideo" src="video.mp4" playsinline></video>
+        </div>
+    </div>
+
+    <!-- Finale Overlay (Lời chúc trung tâm + Ảnh bao quanh) -->
     <div id="finaleOverlay">
         <div id="surroundingPhotos"></div>
 
@@ -356,7 +424,7 @@
             </p>
             
             <p>
-                Cuối cùng, tao chúc chúng mày không chỉ hạnh phúc vào ngày 20/10 mà còn hạnh phúc trong cả những ngày bình thường nhất. Mong những giọt nước mắt sau này đều là vì quá vui, những nỗi buồn đều có người sẻ chia, và những ước mơ dù lớn hay nhỏ đều có ngày trở thành hiện thực.
+                Cuối cùng, tao chúc chúng mày không chỉ hạnh phúc vào ngày 20/10 mà còn hạnh phúc trong cả những ngày bình thường nhất. Mong những giọt nước mắt sau này đều là vì quá vui, những nỗi buồn đều có người sẻ chia, và những ước mơ dù lớn hoặc nhỏ đều có ngày trở thành hiện thực.
             </p>
             
             <p>
@@ -373,13 +441,13 @@
         </div>
     </div>
 
-    <!-- Config Button & Modal for custom pictures -->
+    <!-- Config Button & Modal -->
     <button class="config-btn" id="openConfigBtn">Everywhere</button>
 
     <div id="uploadModal">
         <div class="modal-body">
-            <h3>BadBoy</h3>
-            <label class="file-label" for="photoInput">File</label>
+            <h3>Cài đặt ảnh</h3>
+            <label class="file-label" for="photoInput">Chọn ảnh</label>
             <input type="file" id="photoInput" multiple accept="image/*">
             <p id="uploadStatus" style="font-size: 13px; color: #aaa;"></p>
             <br>
@@ -388,24 +456,16 @@
     </div>
 
     <script>
-        // --- 1. DEFAULT PLACEHOLDER IMAGES (Đã tăng lên 8 ảnh) ---
+        // --- 1. DEFAULT PLACEHOLDER IMAGES ---
         const defaultImages = [
-            "images/anh1.jpg",
-            "images/anh2.jpg",
-            "images/anh3.jpg",
-            "images/anh4.jpg",
-            "images/anh5.jpg",
-            "images/anh6.jpg",
-            "images/anh7.jpg",
-            "images/anh8.jpg"
+            "images/anh1.jpg", "images/anh2.jpg", "images/anh3.jpg", "images/anh4.jpg",
+            "images/anh5.jpg", "images/anh6.jpg", "images/anh7.jpg", "images/anh8.jpg"
         ];
-
         let imageList = [...defaultImages];
 
         // --- 2. CANVAS WARP FIELD ENGINE ---
         const canvas = document.getElementById('warpCanvas');
         const ctx = canvas.getContext('2d');
-
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
 
@@ -414,7 +474,6 @@
             height = canvas.height = window.innerHeight;
         });
 
-        // Stars setup
         const numStars = 700;
         const stars = [];
         let warpSpeed = 18;
@@ -449,10 +508,8 @@
 
                 let x = (star.x / star.z) * cx + cx;
                 let y = (star.y / star.z) * cy + cy;
-
                 let px = (star.x / star.pz) * cx + cx;
                 let py = (star.y / star.pz) * cy + cy;
-
                 star.pz = star.z;
 
                 if (x >= 0 && x <= width && y >= 0 && y <= height) {
@@ -467,10 +524,8 @@
                     ctx.stroke();
                 }
             }
-
             requestAnimationFrame(drawWarpField);
         }
-
         drawWarpField();
 
         // --- 3. FLYING PHOTOS FROM CORNERS ---
@@ -479,7 +534,7 @@
 
         function spawnCornerPhoto() {
             if (photosSpawned >= totalPhotosToFly) {
-                setTimeout(showFinale, 2500);
+                setTimeout(showCenterVideo, 400);
                 return;
             }
 
@@ -495,7 +550,6 @@
             const isLeft = photosSpawned % 2 === 0;
             const startX = isLeft ? -300 : width + 100;
             const startY = (Math.random() * (height * 0.6)) + (height * 0.1);
-
             const endX = isLeft ? width + 200 : -350;
             const endY = startY + (Math.random() * 200 - 100);
 
@@ -530,31 +584,59 @@
                     photoEl.remove();
                 }
             }
-
             requestAnimationFrame(animatePhoto);
-
             photosSpawned++;
             setTimeout(spawnCornerPhoto, 1200);
         }
 
-        // --- 4. FINALE SCREEN & SURROUNDING FLOATING PHOTOS ---
+        // --- 4. CENTER VIDEO OVERLAY & AUDIO SWITCHING ---
+        const centerVideoOverlay = document.getElementById('centerVideoOverlay');
+        const introVideo = document.getElementById('introVideo');
+
+        function showCenterVideo() {
+            bgmAudio1.pause();
+            bgmAudio1.currentTime = 0;
+
+            centerVideoOverlay.classList.add('active');
+            setTimeout(() => {
+                centerVideoOverlay.classList.add('show-box');
+            }, 50);
+
+            introVideo.play().catch(err => {
+                console.log("Không thể tự động phát video:", err);
+            });
+
+            introVideo.addEventListener('ended', () => {
+                bgmAudio3.play().then(() => {
+                    audioToggleBtn.innerHTML = '🔊 Âm nhạc: Bật';
+                }).catch(err => {
+                    console.log("Không thể phát nhạc 3:", err);
+                });
+                currentActiveAudio = bgmAudio3;
+
+                centerVideoOverlay.classList.remove('active', 'show-box');
+                showFinale();
+            }, { once: true });
+        }
+
+        // --- 5. FINALE SCREEN & SURROUNDING FLOATING PHOTOS ---
         function showFinale() {
             warpSpeed = 2;
-
             const finaleOverlay = document.getElementById('finaleOverlay');
             const surroundingContainer = document.getElementById('surroundingPhotos');
+            
             surroundingContainer.innerHTML = '';
 
             const totalSurrounding = Math.min(imageList.length, 10);
-            const radiusX = Math.min(width * 0.38, 550);
-            const radiusY = Math.min(height * 0.36, 380);
+            const radiusX = Math.min(width * 0.44, 700);
+            const radiusY = Math.min(height * 0.42, 480);
             const centerX = width / 2;
             const centerY = height / 2;
 
             for (let i = 0; i < totalSurrounding; i++) {
                 const angle = (i / totalSurrounding) * Math.PI * 2;
-                const posX = centerX + Math.cos(angle) * radiusX - 95;
-                const posY = centerY + Math.sin(angle) * radiusY - 80;
+                const posX = centerX + Math.cos(angle) * radiusX - 120;
+                const posY = centerY + Math.sin(angle) * radiusY - 100;
                 const rotation = (Math.random() - 0.5) * 24;
 
                 const photoCard = document.createElement('div');
@@ -567,28 +649,29 @@
                 const img = document.createElement('img');
                 img.src = imageList[i % imageList.length];
                 photoCard.appendChild(img);
-
                 surroundingContainer.appendChild(photoCard);
             }
 
             finaleOverlay.classList.add('active');
         }
 
-        // --- 5. CONTROLS ---
+        // --- 6. CONTROLS & FLOW ---
         const startBtn = document.getElementById('startBtn');
         const startOverlay = document.getElementById('startOverlay');
-        const bgmAudio = document.getElementById('bgmAudio');
+        const bgmAudio1 = document.getElementById('bgmAudio1');
+        const bgmAudio3 = document.getElementById('bgmAudio3');
         const audioToggleBtn = document.getElementById('audioToggleBtn');
+
+        let currentActiveAudio = bgmAudio1;
 
         startBtn.addEventListener('click', () => {
             startOverlay.classList.add('hidden');
             audioToggleBtn.style.display = 'flex';
             
-            // Tự động phát nhạc nền khi bấm nút START
-            bgmAudio.play().then(() => {
+            bgmAudio1.play().then(() => {
                 audioToggleBtn.innerHTML = '🔊 Âm nhạc: Bật';
             }).catch(error => {
-                console.log("Không thể tự động phát nhạc:", error);
+                console.log("Trình duyệt chặn tự động phát nhạc:", error);
                 audioToggleBtn.innerHTML = '🔇 Âm nhạc: Tắt';
             });
 
@@ -597,11 +680,11 @@
         });
 
         audioToggleBtn.addEventListener('click', () => {
-            if (bgmAudio.paused) {
-                bgmAudio.play();
+            if (currentActiveAudio.paused) {
+                currentActiveAudio.play();
                 audioToggleBtn.innerHTML = '🔊 Âm nhạc: Bật';
             } else {
-                bgmAudio.pause();
+                currentActiveAudio.pause();
                 audioToggleBtn.innerHTML = '🔇 Âm nhạc: Tắt';
             }
         });
